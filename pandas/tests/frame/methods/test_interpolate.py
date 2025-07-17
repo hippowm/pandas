@@ -440,3 +440,8 @@ class TestDataFrameInterpolate:
         result = df.interpolate(limit=2)
         expected = DataFrame({"a": [1, 1.5, 2.0, None, 3]}, dtype="float64[pyarrow]")
         tm.assert_frame_equal(result, expected)
+
+    def test_interpolate_type_error(self):
+        ser = Series(["string1", "string2", "string3"], dtype="string")
+        with pytest.raises(TypeError, match="Cannot interpolate with string dtype"):
+            ser.interpolate()
